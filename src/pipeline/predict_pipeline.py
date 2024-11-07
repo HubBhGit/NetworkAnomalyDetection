@@ -30,133 +30,136 @@ class CustomData:
     def __init__(
         self,
         duration: int,
-        protocol_type: str,
+        protocoltype: str,
         service: str,
         flag: str,
-        src_bytes: int,
-        dst_bytes: int,
+        srcbytes: int,
+        dstbytes: int,
         land: int,
-        wrong_fragment: int,
+        wrongfragment: int,
         urgent: int,
         hot: int,
-        num_failed_logins: int,
-        logged_in: int,
-        num_compromised: int,
-        root_shell: int,
-        su_attempted: int,
-        num_root: int,
-        num_file_creations: int,
-        num_shells: int,
-        num_access_files: int,
-        num_outbound_cmds: int,
-        is_hot_login: int,
-        is_guest_login: int,
+        numfailedlogins: int,
+        loggedin: int,
+        numcompromised: int,
+        rootshell: int,
+        suattempted: int,
+        numroot: int,
+        numfilecreations: int,
+        numshells: int,
+        numaccessfiles: int,
+        numoutboundcmds: int,
+        ishotlogin: int,
+        isguestlogin: int,
         count: int,
-        srv_count: int,
-        serror_rate: float,
-        srv_serror_rate: float,
-        rerror_rate: float,
-        srv_rerror_rate: float,
-        same_srv_rate: float,
-        diff_srv_rate: float,
-        srv_diff_host_rate: float,
-        dst_host_count: int,
-        dst_host_srv_count: int,
-        dst_host_same_srv_rate: float,
-        dst_host_diff_srv_rate: float,
-        dst_host_same_src_port_rate: float,
-        dst_host_srv_diff_host_rate: float,
-        dst_host_serror_rate: float,
-        dst_host_srv_serror_rate: float,
-        dst_host_rerror_rate: float,
-        dst_host_srv_rerror_rate: float
+        srvcount: int,
+        serrorrate: float,
+        srvserrorrate: float,
+        rerrorrate: float,
+        srvrerrorrate: float,
+        samesrvrate: float,
+        diffsrvrate: float,
+        srvdiffhostrate: float,
+        dsthostcount: int,
+        dsthostsrvcount: int,
+        dsthostsamesrvrate: float,
+        dsthostdiffsrvrate: float,
+        dsthostsamesrcportrate: float,
+        dsthostsrvdiffhostrate: float,
+        dsthostserrorrate: float,
+        dsthostsrvserrorrate: float,
+        dsthostrerrorrate: float,
+        dsthostsrvrerrorrate: float,
+        lastflag: int
     ):
         self.duration = duration
-        self.protocol_type = protocol_type
+        self.protocoltype = protocoltype
         self.service = service
         self.flag = flag
-        self.src_bytes = src_bytes
-        self.dst_bytes = dst_bytes
+        self.srcbytes = srcbytes
+        self.dstbytes = dstbytes
         self.land = land
-        self.wrong_fragment = wrong_fragment
+        self.wrongfragment = wrongfragment
         self.urgent = urgent
         self.hot = hot
-        self.num_failed_logins = num_failed_logins
-        self.logged_in = logged_in
-        self.num_compromised = num_compromised
-        self.root_shell = root_shell
-        self.su_attempted = su_attempted
-        self.num_root = num_root
-        self.num_file_creations = num_file_creations
-        self.num_shells = num_shells
-        self.num_access_files = num_access_files
-        self.num_outbound_cmds = num_outbound_cmds
-        self.is_hot_login = is_hot_login
-        self.is_guest_login = is_guest_login
+        self.numfailedlogins = numfailedlogins
+        self.loggedin = loggedin
+        self.numcompromised = numcompromised
+        self.rootshell = rootshell
+        self.suattempted = suattempted
+        self.numroot = numroot
+        self.numfilecreations = numfilecreations
+        self.numshells = numshells
+        self.numaccessfiles = numaccessfiles
+        self.numoutboundcmds = numoutboundcmds
+        self.ishotlogin = ishotlogin
+        self.isguestlogin = isguestlogin
         self.count = count
-        self.srv_count = srv_count
-        self.serror_rate = serror_rate
-        self.srv_serror_rate = srv_serror_rate
-        self.rerror_rate = rerror_rate
-        self.srv_rerror_rate = srv_rerror_rate
-        self.same_srv_rate = same_srv_rate
-        self.diff_srv_rate = diff_srv_rate
-        self.srv_diff_host_rate = srv_diff_host_rate
-        self.dst_host_count = dst_host_count
-        self.dst_host_srv_count = dst_host_srv_count
-        self.dst_host_same_srv_rate = dst_host_same_srv_rate
-        self.dst_host_diff_srv_rate = dst_host_diff_srv_rate
-        self.dst_host_same_src_port_rate = dst_host_same_src_port_rate
-        self.dst_host_srv_diff_host_rate = dst_host_srv_diff_host_rate
-        self.dst_host_serror_rate = dst_host_serror_rate
-        self.dst_host_srv_serror_rate = dst_host_srv_serror_rate
-        self.dst_host_rerror_rate = dst_host_rerror_rate
-        self.dst_host_srv_rerror_rate = dst_host_srv_rerror_rate
+        self.srvcount = srvcount
+        self.serrorrate = serrorrate
+        self.srvserrorrate = srvserrorrate
+        self.rerrorrate = rerrorrate
+        self.srvrerrorrate = srvrerrorrate
+        self.samesrvrate = samesrvrate
+        self.diffsrvrate = diffsrvrate
+        self.srvdiffhostrate = srvdiffhostrate
+        self.dsthostcount = dsthostcount
+        self.dsthostsrvcount = dsthostsrvcount
+        self.dsthostsamesrvrate = dsthostsamesrvrate
+        self.dsthostdiffsrvrate = dsthostdiffsrvrate
+        self.dsthostsamesrcportrate = dsthostsamesrcportrate
+        self.dsthostsrvdiffhostrate = dsthostsrvdiffhostrate
+        self.dsthostserrorrate = dsthostserrorrate
+        self.dsthostsrvserrorrate = dsthostsrvserrorrate
+        self.dsthostrerrorrate = dsthostrerrorrate
+        self.dsthostsrvrerrorrate = dsthostsrvrerrorrate
+        self.lastflag = lastflag
 
     def get_data_as_data_frame(self):
         try:
             custom_data_input_dict = {
                 "duration": [self.duration],
-                "protocol_type": [self.protocol_type],
+                "protocoltype": [self.protocoltype],
                 "service": [self.service],
                 "flag": [self.flag],
-                "src_bytes": [self.src_bytes],
-                "dst_bytes": [self.dst_bytes],
+                "srcbytes": [self.srcbytes],
+                "dstbytes": [self.dstbytes],
                 "land": [self.land],
-                "wrong_fragment": [self.wrong_fragment],
+                "wrongfragment": [self.wrongfragment],
                 "urgent": [self.urgent],
                 "hot": [self.hot],
-                "num_failed_logins": [self.num_failed_logins],
-                "logged_in": [self.logged_in],
-                "num_compromised": [self.num_compromised],
-                "root_shell": [self.root_shell],
-                "su_attempted": [self.su_attempted],
-                "num_root": [self.num_root],
-                "num_file_creations": [self.num_file_creations],
-                "num_shells": [self.num_shells],
-                "num_access_files": [self.num_access_files],
-                "num_outbound_cmds": [self.num_outbound_cmds],
-                "is_hot_login": [self.is_hot_login],
-                "is_guest_login": [self.is_guest_login],
+                "numfailedlogins": [self.numfailedlogins],
+                "loggedin": [self.loggedin],
+                "numcompromised": [self.numcompromised],
+                "rootshell": [self.rootshell],
+                "suattempted": [self.suattempted],
+                "numroot": [self.numroot],
+                "numfilecreations": [self.numfilecreations],
+                "numshells": [self.numshells],
+                "numaccessfiles": [self.numaccessfiles],
+                "numoutboundcmds": [self.numoutboundcmds],
+                "ishotlogin": [self.ishotlogin],
+                "isguestlogin": [self.isguestlogin],
                 "count": [self.count],
-                "srv_count": [self.srv_count],
-                "serror_rate": [self.serror_rate],
-                "srv_serror_rate": [self.srv_serror_rate],
-                "rerror_rate": [self.rerror_rate],
-                "srv_rerror_rate": [self.srv_rerror_rate],
-                "same_srv_rate": [self.same_srv_rate],
-                "diff_srv_rate": [self.diff_srv_rate],
-                "srv_diff_host_rate": [self.srv_diff_host_rate],
-                "dst_host_count": [self.dst_host_count],
-                "dst_host_srv_count": [self.dst_host_srv_count],
-                "dst_host_same_srv_rate": [self.dst_host_same_srv_rate],
-                "dst_host_diff_srv_rate": [self.dst_host_diff_srv_rate],
-                "dst_host_same_src_port_rate": [self.dst_host_same_src_port_rate],
-                "dst_host_srv_diff_host_rate": [self.dst_host_srv_diff_host_rate],
-                "dst_host_serror_rate": [self.dst_host_serror_rate],
-                "dst_host_srv_serror_rate": [self.dst_host_srv_serror_rate],
-                "dst_host_rerror_rate": [self.dst_host_rerror_rate],
-                "dst_host_srv_rerror_rate": [self.dst_host_srv_rerror_rate]
+                "srvcount": [self.srvcount],
+                "serrorrate": [self.serrorrate],
+                "srvserrorrate": [self.srvserrorrate],
+                "rerrorrate": [self.rerrorrate],
+                "srvrerrorrate": [self.srvrerrorrate],
+                "samesrvrate": [self.samesrvrate],
+                "diffsrvrate": [self.diffsrvrate],
+                "srvdiffhostrate": [self.srvdiffhostrate],
+                "dsthostcount": [self.dsthostcount],
+                "dsthostsrvcount": [self.dsthostsrvcount],
+                "dsthostsamesrvrate": [self.dsthostsamesrvrate],
+                "dsthostdiffsrvrate": [self.dsthostdiffsrvrate],
+                "dsthostsamesrcportrate": [self.dsthostsamesrcportrate],
+                "dsthostsrvdiffhostrate": [self.dsthostsrvdiffhostrate],
+                "dsthostserrorrate": [self.dsthostserrorrate],
+                "dsthostsrvserrorrate": [self.dsthostsrvserrorrate],
+                "dsthostrerrorrate": [self.dsthostrerrorrate],
+                "dsthostsrvrerrorrate": [self.dsthostsrvrerrorrate],
+                "lastflag": [self.lastflag]
             }
 
             return pd.DataFrame(custom_data_input_dict)

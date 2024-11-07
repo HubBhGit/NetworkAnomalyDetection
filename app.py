@@ -1,84 +1,78 @@
-from flask import Flask, request, render_template
-import numpy as np
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
-
-from sklearn.preprocessing import StandardScaler
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
-application = Flask(__name__)
-
-app = application
+app = Flask(__name__)
 
 # Route for the home page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/predictdata', methods=['GET', 'POST'])
-def predict_datapoint():
-    if request.method == 'GET':
-        return render_template('home.html')
-    else:
-        # Fetch data from the form, using network-related fields
-        data = CustomData(
-            duration=int(request.form.get('duration')),
-            protocol_type=request.form.get('protocol_type'),
-            service=request.form.get('service'),
-            flag=request.form.get('flag'),
-            src_bytes=int(request.form.get('src_bytes')),
-            dst_bytes=int(request.form.get('dst_bytes')),
-            land=int(request.form.get('land')),
-            wrong_fragment=int(request.form.get('wrong_fragment')),
-            urgent=int(request.form.get('urgent')),
-            hot=int(request.form.get('hot')),
-            num_failed_logins=int(request.form.get('num_failed_logins')),
-            logged_in=int(request.form.get('logged_in')),
-            num_compromised=int(request.form.get('num_compromised')),
-            root_shell=int(request.form.get('root_shell')),
-            su_attempted=int(request.form.get('su_attempted')),
-            num_root=int(request.form.get('num_root')),
-            num_file_creations=int(request.form.get('num_file_creations')),
-            num_shells=int(request.form.get('num_shells')),
-            num_access_files=int(request.form.get('num_access_files')),
-            num_outbound_cmds=int(request.form.get('num_outbound_cmds')),
-            is_hot_login=int(request.form.get('is_hot_login')),
-            is_guest_login=int(request.form.get('is_guest_login')),
-            count=int(request.form.get('count')),
-            srv_count=int(request.form.get('srv_count')),
-            serror_rate=float(request.form.get('serror_rate')),
-            srv_serror_rate=float(request.form.get('srv_serror_rate')),
-            rerror_rate=float(request.form.get('rerror_rate')),
-            srv_rerror_rate=float(request.form.get('srv_rerror_rate')),
-            same_srv_rate=float(request.form.get('same_srv_rate')),
-            diff_srv_rate=float(request.form.get('diff_srv_rate')),
-            srv_diff_host_rate=float(request.form.get('srv_diff_host_rate')),
-            dst_host_count=int(request.form.get('dst_host_count')),
-            dst_host_srv_count=int(request.form.get('dst_host_srv_count')),
-            dst_host_same_srv_rate=float(request.form.get('dst_host_same_srv_rate')),
-            dst_host_diff_srv_rate=float(request.form.get('dst_host_diff_srv_rate')),
-            dst_host_same_src_port_rate=float(request.form.get('dst_host_same_src_port_rate')),
-            dst_host_srv_diff_host_rate=float(request.form.get('dst_host_srv_diff_host_rate')),
-            dst_host_serror_rate=float(request.form.get('dst_host_serror_rate')),
-            dst_host_srv_serror_rate=float(request.form.get('dst_host_srv_serror_rate')),
-            dst_host_rerror_rate=float(request.form.get('dst_host_rerror_rate')),
-            dst_host_srv_rerror_rate=float(request.form.get('dst_host_srv_rerror_rate'))
-        )
+# Prediction route
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Collect form data
+        input_data = {
+            'duration': int(request.form.get('duration')),
+            'protocoltype': request.form.get('protocoltype'),
+            'service': request.form.get('service'),
+            'flag': request.form.get('flag'),
+            'srcbytes': int(request.form.get('srcbytes')),
+            'dstbytes': int(request.form.get('dstbytes')),
+            'land': int(request.form.get('land')),
+            'wrongfragment': int(request.form.get('wrongfragment')),
+            'urgent': int(request.form.get('urgent')),
+            'hot': int(request.form.get('hot')),
+            'numfailedlogins': int(request.form.get('numfailedlogins')),
+            'loggedin': int(request.form.get('loggedin')),
+            'numcompromised': int(request.form.get('numcompromised')),
+            'rootshell': int(request.form.get('rootshell')),
+            'suattempted': int(request.form.get('suattempted')),
+            'numroot': int(request.form.get('numroot')),
+            'numfilecreations': int(request.form.get('numfilecreations')),
+            'numshells': int(request.form.get('numshells')),
+            'numaccessfiles': int(request.form.get('numaccessfiles')),
+            'numoutboundcmds': int(request.form.get('numoutboundcmds')),
+            'ishotlogin': int(request.form.get('ishotlogin')),
+            'isguestlogin': int(request.form.get('isguestlogin')),
+            'count': int(request.form.get('count')),
+            'srvcount': int(request.form.get('srvcount')),
+            'serrorrate': float(request.form.get('serrorrate')),
+            'srvserrorrate': float(request.form.get('srvserrorrate')),
+            'rerrorrate': float(request.form.get('rerrorrate')),
+            'srvrerrorrate': float(request.form.get('srvrerrorrate')),
+            'samesrvrate': float(request.form.get('samesrvrate')),
+            'diffsrvrate': float(request.form.get('diffsrvrate')),
+            'srvdiffhostrate': float(request.form.get('srvdiffhostrate')),
+            'dsthostcount': int(request.form.get('dsthostcount')),
+            'dsthostsrvcount': int(request.form.get('dsthostsrvcount')),
+            'dsthostsamesrvrate': float(request.form.get('dsthostsamesrvrate')),
+            'dsthostdiffsrvrate': float(request.form.get('dsthostdiffsrvrate')),
+            'dsthostsamesrcportrate': float(request.form.get('dsthostsamesrcportrate')),
+            'dsthostsrvdiffhostrate': float(request.form.get('dsthostsrvdiffhostrate')),
+            'dsthostserrorrate': float(request.form.get('dsthostserrorrate')),
+            'dsthostsrvserrorrate': float(request.form.get('dsthostsrvserrorrate')),
+            'dsthostrerrorrate': float(request.form.get('dsthostrerrorrate')),
+            'dsthostsrvrerrorrate': float(request.form.get('dsthostsrvrerrorrate')),
+            'lastflag': int(request.form.get('lastflag'))
+        }
 
-        # Get data in dataframe format
-        pred_df = data.get_data_as_data_frame()
-        print(pred_df)
-        print("Before Prediction")
+        # Create a CustomData instance and convert it to a DataFrame
+        data_instance = CustomData(**input_data)
+        input_df = data_instance.get_data_as_data_frame()
 
-        # Make prediction
+        # Initialize prediction pipeline and make a prediction
         predict_pipeline = PredictPipeline()
-        print("Mid Prediction")
-        results = predict_pipeline.predict(pred_df)
-        print("After Prediction")
+        prediction = predict_pipeline.predict(input_df)
 
-        # Render the results on the home page
-        return render_template('home.html', results=results[0])
+        # Return prediction result
+        return jsonify({"prediction": str(prediction[0])})
+
+    except Exception as e:
+        # Handle errors and return them as JSON
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5001, debug=True)
-
-  
+    app.run(host="127.0.0.1", port=8000, debug=True)
