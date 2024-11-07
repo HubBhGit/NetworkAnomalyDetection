@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Anomaly Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>check your network connection is safe ?</h1>
+    </header>
+    <div class="form-container">
+        <form action="/predictdata" method="POST">
+            <label for="duration">Duration</label>
+            <input type="number" name="duration" required><br>
+
+            <label for="protocol_type">Protocol Type</label>
+            <input type="text" name="protocol_type" required><br>
+
+            <label for="service">Service</label>
+            <input type="text" name="service" required><br>
+
+            <label for="flag">Flag</label>
+            <input type="text" name="flag" required><br>
+
+            <label for="src_bytes">Source Bytes</label>
+            <input type="number" name="src_bytes" required><br>
+
+            <label for="dst_bytes">Destination Bytes</label>
+            <input type="number" name="dst_bytes" required><br>
+
+            <label for="land">Land</label>
+            <input type="number" name="land" required><br>
+
+            <label for="wrong_fragment">Wrong Fragment</label>
+            <input type="number" name="wrong_fragment" required><br>
+
+            <label for="urgent">Urgent</label>
+            <input type="number" name="urgent" required><br>
+
+            <label for="hot">Hot</label>
+            <input type="number" name="hot" required><br>
+
+            <label for="num_failed_logins">Number of Failed Logins</label>
+            <input type="number" name="num_failed_logins" required><br>
+
+            <label for="logged_in">Logged In</label>
+            <input type="number" name="logged_in" required><br>
+
+            <label for="num_compromised">Number of Compromised</label>
+            <input type="number" name="num_compromised" required><br>
+
+            <label for="root_shell">Root Shell</label>
+            <input type="number" name="root_shell" required><br>
+
+            <label for="su_attempted">SU Attempted</label>
+            <input type="number" name="su_attempted" required><br>
+
+            <label for="num_root">Number of Root</label>
+            <input type="number" name="num_root" required><br>
+
+            <label for="num_file_creations">Number of File Creations</label>
+            <input type="number" name="num_file_creations" required><br>
+
+            <label for="num_shells">Number of Shells</label>
+            <input type="number" name="num_shells" required><br>
+
+            <label for="num_access_files">Number of Access Files</label>
+            <input type="number" name="num_access_files" required><br>
+
+            <label for="num_outbound_cmds">Number of Outbound Commands</label>
+            <input type="number" name="num_outbound_cmds" required><br>
+
+            <label for="is_hot_login">Is Hot Login</label>
+            <input type="number" name="is_hot_login" required><br>
+
+            <label for="is_guest_login">Is Guest Login</label>
+            <input type="number" name="is_guest_login" required><br>
+
+            <!-- Other features -->
+            <label for="count">Count</label>
+            <input type="number" name="count" required><br>
+
+            <label for="srv_count">Service Count</label>
+            <input type="number" name="srv_count" required><br>
+
+            <label for="serror_rate">Serror Rate</label>
+            <input type="number" name="serror_rate" required><br>
+
+            <label for="srv_serror_rate">Srv Serror Rate</label>
+            <input type="number" name="srv_serror_rate" required><br>
+
+            <!-- Add all other fields as required -->
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+
+    {% if results %}
+    <div class="result">
+        <h2>Prediction Result:</h2>
+        <p>{{ results }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
