@@ -1,15 +1,15 @@
-import sys,os
+import os
+import sys
 import pandas as pd
 from src.logger import logging
 from src.exception import CustomException
 from src.utils import load_object
 
-
 class PredictPipeline:
     def __init__(self):
         pass
-
-    def predict(self,features):
+    
+    def predict(self, features: pd.DataFrame) -> pd.Series:
         try:
             model_path=os.path.join("artifacts","model.pkl")
             preprocessor_path=os.path.join('artifacts','preprocessor.pkl')
@@ -22,9 +22,7 @@ class PredictPipeline:
             return preds
         
         except Exception as e:
-            raise CustomException(e,sys)
-
-
+            raise CustomException(e, sys) from e
 
 class CustomData:
     def __init__(

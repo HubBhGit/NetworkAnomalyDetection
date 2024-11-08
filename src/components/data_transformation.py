@@ -16,7 +16,7 @@ from src.utils import save_object
 @dataclass
 class DataTransformationConfig:
     # Path to save the preprocessor object file
-    preprocessor_obj_file_path = os.path.join('artifacts', "preprocessor.pkl")
+    preprocessor_obj_file_path = os.path.join('artifacts', "proprocessor.pkl")
 
 class DataTransformation:
     def __init__(self):
@@ -41,13 +41,15 @@ class DataTransformation:
             categorical_columns = ['protocoltype', 'service', 'flag']
 
             # Numerical transformation pipeline: impute missing values and scale features
-            num_pipeline = Pipeline([
+            num_pipeline = Pipeline(
+                steps=[
                 ("imputer", SimpleImputer(strategy="median")),
                 ("scaler", StandardScaler())
             ])
 
             # Categorical transformation pipeline: impute missing values, encode, and scale features
-            cat_pipeline = Pipeline([
+            cat_pipeline = Pipeline(
+                steps=[
                 ("imputer", SimpleImputer(strategy="most_frequent")),
                 ("one_hot_encoder", OneHotEncoder(handle_unknown='ignore')),
                 ("scaler", StandardScaler(with_mean=False))
@@ -58,7 +60,7 @@ class DataTransformation:
 
             # Combine the numerical and categorical pipelines into a ColumnTransformer
             preprocessor = ColumnTransformer(
-                transformers=[
+                [
                     ("num_pipeline", num_pipeline, numerical_columns),
                     ("cat_pipeline", cat_pipeline, categorical_columns)
                 ]
@@ -78,32 +80,45 @@ class DataTransformation:
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
 
-            logging.info("Loaded train and test data successfully")
+            logging.info("Read train and test data completed")
+
+            logging.info("Obtaining preprocessing object")
 
             # Obtain the preprocessor object
             preprocessing_obj = self.get_data_transformer_object()
 
             # Define target variable
             target_column_name = "attack"
+            numerical_columns = [
+                'duration', 'srcbytes', 'dstbytes', 'land', 'wrongfragment', 'urgent', 'hot', 'numfailedlogins', 
+                'loggedin', 'numcompromised', 'rootshell', 'suattempted', 'numroot', 'numfilecreations', 
+                'numshells', 'numaccessfiles', 'numoutboundcmds', 'ishostlogin', 'isguestlogin', 'count', 
+                'srvcount', 'serrorrate', 'srvserrorrate', 'rerrorrate', 'srvrerrorrate', 'samesrvrate', 
+                'diffsrvrate', 'srvdiffhostrate', 'dsthostcount', 'dsthostsrvcount', 'dsthostsamesrvrate', 
+                'dsthostdiffsrvrate', 'dsthostsamesrcportrate', 'dsthostsrvdiffhostrate', 'dsthostserrorrate', 
+                'dsthostsrvserrorrate', 'dsthostrerrorrate', 'dsthostsrvrerrorrate', 'lastflag'
+            ]
 
             # Separate input features and target for both train and test sets
-            input_feature_train_df = train_df.drop(columns=[target_column_name])
+            input_feature_train_df = train_df.drop(columns=[target_column_name],axis=1)
             target_feature_train_df = train_df[target_column_name]
 
-            input_feature_test_df = test_df.drop(columns=[target_column_name])
+            input_feature_test_df = test_df.drop(columns=[target_column_name],axis=1)
             target_feature_test_df = test_df[target_column_name]
 
-            logging.info("Applying preprocessing on training and test data")
+            logging.info(
+                f"Applying preprocessing object on training dataframe and testing dataframe."
+            )
 
             # Transform features
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
 
             # Combine transformed features and target variable into single arrays for train and test sets
-            train_arr = np.c_[input_feature_train_arr, target_feature_train_df.to_numpy()]
-            test_arr = np.c_[input_feature_test_arr, target_feature_test_df.to_numpy()]
+            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
+            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-            logging.info("Saving preprocessor object")
+            logging.info(f"Saving preprocessor object.")
 
             # Save the preprocessor object
             save_object(
@@ -111,7 +126,7 @@ class DataTransformation:
                 obj=preprocessing_obj
             )
 
-            return train_arr, test_arr, self.data_transformation_config.preprocessor_obj_file_path
+            return (train_arr, test_arr, self.data_transformation_config.preprocessor_obj_file_path)
 
         except Exception as e:
             raise CustomException(e, sys)
