@@ -5,8 +5,6 @@ from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 # Title of the Streamlit application
 st.title("Network Anomaly Detection Indicator")
 
-# User input form
-st.header("Network Anomaly Detection Prediction")
 
 # protocoltype selection
 protocoltype = st.selectbox("protocoltype", options=["Select your protocoltype", 'tcp','udp' ,'icmp'], index=0)
