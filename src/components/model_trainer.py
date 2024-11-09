@@ -16,6 +16,7 @@ from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
 
 from src.exception import CustomException
+from sklearn.preprocessing import StandardScaler
 from src.logger import logging
 from src.utils import save_object, evaluate_models
 
@@ -37,6 +38,11 @@ class ModelTrainer:
                 test_array[:, -1]
             )
 
+            # Scale the data
+            scaler = StandardScaler()
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
+            
             models = {
                 "Logistic Regression": LogisticRegression(),
                 "Support Vector Classifier": SVC(),
@@ -49,10 +55,12 @@ class ModelTrainer:
                 "XGBoost Classifier": XGBClassifier()
             }
 
+         # params
             params = {
                 "Logistic Regression": {
                     'C': [0.01, 0.1, 1, 10],
-                    'solver': ['liblinear', 'lbfgs']
+                    'solver': ['sag', 'saga'],
+                    'max_iter': [700, 1000]  # Increased max_iter
                 },
                 "Support Vector Classifier": {
                     'C': [0.1, 1, 10],
@@ -86,7 +94,8 @@ class ModelTrainer:
                     'learning_rate': [0.01, 0.05, 0.1],
                     'n_estimators': [50, 100, 150]
                 }
-            }
+            }            
+            
             
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
                                              models=models,param=params)

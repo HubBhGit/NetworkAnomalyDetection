@@ -20,7 +20,7 @@ def save_object(file_path, obj):
     except Exception as e:
         raise CustomException(e, sys)
     
-def evaluate_models(X_train, y_train, X_test, y_test, models, param):
+def evaluate_models(X_train, y_train, X_test, y_test, models,param): #param
     try:
         report = {}
 
@@ -29,7 +29,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
             para = param[list(models.keys())[i]]
 
             # Hyperparameter tuning with GridSearchCV
-            gs = GridSearchCV(model, para, cv=3)
+            gs = GridSearchCV(model, para, cv=2)
             gs.fit(X_train, y_train)
 
             # Set the best parameters to the model and retrain it
